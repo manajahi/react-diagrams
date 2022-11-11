@@ -67,26 +67,36 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 		return (
 			<S.Body>
 				<S.Header>
-					<div className="title">Ancrypt CryptShop demo</div>
+					<div className="title">Ancrypt® CryptShop</div>
 				</S.Header>
 				<S.Content>
 					<TrayWidget>
 						<TrayItemWidget model={{ type: 'genKey-128' }} name="Gen-Key-128" color="rgb(0,192,255)" />
 						<TrayItemWidget model={{ type: 'genData' }} name="Gen-Data" color="rgb(192,192,0)" />
 						<TrayItemWidget model={{ type: 'aes-cbc-128' }} name="AES-CBC-128" color="rgb(0,255,192)" />
-						<TrayItemWidget model={{ type: 'cmac' }} name="CMAC" color="rgb(192,255,0)" />
-						<TrayItemWidget model={{ type: 'outFile' }} name="Out-File" color="rgb(255,192,0)" />
+						<TrayItemWidget model={{ type: 'cmac-sign' }} name="CMAC-Sign" color="rgb(192,255,0)" />
+						<TrayItemWidget model={{ type: 'cmac-verify' }} name="CMAC-Verify" color="rgb(192,255,192)" />
+						<TrayItemWidget model={{ type: 'file' }} name="File" color="rgb(255,192,0)" />
 					</TrayWidget>
 					<S.Layer
 						onDrop={(event) => {
 							var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
 							var node: DefaultNodeModel = null;
 						        switch(data.type){
-							    case 'cmac': {
-								node = new DefaultNodeModel('CMAC', 'rgb(192,255,0)');
+							    case 'cmac-sign': {
+								node = new DefaultNodeModel('CMAC-Sign', 'rgb(192,255,0)');
 								let port1 = node.addInPort('KeyIn');
 								let port2 = node.addInPort('DataIn');
 								let port3 = node.addOutPort('Signature');
+								break;
+							    }
+
+							    case 'cmac-verify': {
+								node = new DefaultNodeModel('CMAC-Verify', 'rgb(192,255,192)');
+								let port1 = node.addInPort('KeyIn');
+								let port2 = node.addInPort('DataIn');
+								let port3 = node.addInPort('Signature');
+								let port4 = node.addOutPort('Valid');
 								break;
 							    }
 
@@ -110,9 +120,10 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 								break;
 							    }
 
-							    case 'outFile': {
-								node = new DefaultNodeModel('Out-File', 'rgb(255,192,0)');
+							    case 'file': {
+								node = new DefaultNodeModel('File', 'rgb(255,192,0)');
 								let port1 = node.addInPort('DataIn');
+								let port2 = node.addOutPort('DataOut');
 								break;
 							    }
 							}

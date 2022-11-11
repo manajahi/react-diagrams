@@ -61,7 +61,7 @@ export class DemoCanvasWidget extends React.Component<React.PropsWithChildren<De
 			<>
 				<Global styles={S.Expand} />
 				<S.Container
-					background={this.props.background || 'rgb(60, 60, 60)'}
+					background={this.props.background || 'rgb(0, 0, 0)'}
 					color={this.props.color || 'rgba(255,255,255, 0.05)'}
 				>
 					{this.props.children}
